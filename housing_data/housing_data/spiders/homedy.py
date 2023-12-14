@@ -5,7 +5,7 @@ from housing_data.items import HousingDataItem
 class HomedySpider(scrapy.Spider):
     name = "homedy"
     allowed_domains = ["homedy.com"]
-    start_urls = ["https://homedy.com/search/p1?typeId=1&fbclid=IwAR3XiZgCdq3gBurtge2q_dNMnad2wiAte3cM_LoOIDI5Pif1NaMoT2gmwkM"]
+    start_urls = ["https://homedy.com/search/p1?typeId=1&keyword=hanoi&fbclid=IwAR2d_omR1ig9W_k1LCJFMHR1JUbHjtXkP74S19phZzLWl3H2RXCPtJfjcZM"]
 
     custom_settings = {
         'FEEDS': {'data.json' : {'format': 'json'}}
@@ -28,7 +28,7 @@ class HomedySpider(scrapy.Spider):
             yield scrapy.Request(full_into_url, callback = self.parse_house_page)
         relative_next_page = response.css("div.box-content + div.page-nav ul li a::attr(href)").getall()[-1]
         abs_next_page = "none"
-        if("p10" not in relative_next_page):
+        if("p670" not in relative_next_page):
             abs_next_page = base_url + relative_next_page
         if(abs_next_page != "none"):
             yield response.follow(abs_next_page, callback = self.parse)
